@@ -21,4 +21,15 @@ export default class PetRepository implements IPetRepository {
             updatedAt: new Date()
         });
     }
-}
+
+    async updateById(data: Partial<Pet>): Promise<void>{
+        await this.petModel.updateOne(
+            {
+                _id: data._id
+            }, {
+              ...data,
+              updateAt: new Date()
+            }
+        )
+        }
+    }
