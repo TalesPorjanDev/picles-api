@@ -18,7 +18,6 @@ export default class CreatePetControllerInput {
     gender: string
 
     @IsString()
-    @IsEmail()
     @MaxLength(1024)
     bio: string
 

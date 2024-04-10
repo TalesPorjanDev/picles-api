@@ -29,10 +29,10 @@ export class Pet {
     photo: string;
 
     @Prop({ required: true})
-    createAt: Date;
+    createdAt: Date;
 
     @Prop({required: true})
-    updateAt: Date;
+    updatedAt: Date;
 }
     export const PetSchema = SchemaFactory.createForClass(Pet);
 

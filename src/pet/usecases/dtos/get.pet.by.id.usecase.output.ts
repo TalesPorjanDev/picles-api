@@ -1,5 +1,5 @@
-export default class CreatePetUseCaseOutput {
-  id: string;
+export default class getPetByIdUseCaseOutput {
+id: string;
   name: string;
   type: string;
   size: string;
@@ -9,7 +9,9 @@ export default class CreatePetUseCaseOutput {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(data: Partial<CreatePetUseCaseOutput>) {
+  constructor(data: Partial<getPetByIdUseCaseOutput>) {
     Object.assign(this, data);
   }
 }
+
+
