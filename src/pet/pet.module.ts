@@ -32,6 +32,10 @@ import DeletePetByIdUseCase from './usecases/delete.pet.by.id.usecase';
     {
       provide: PetTokens.petRepository,
       useClass: PetRepository
+    },
+    {
+      provide: PetTokens.updatePetPhotoByIdUseCase,
+      useClass: UpdatePetByIdUseCase
     }
   ]
 })

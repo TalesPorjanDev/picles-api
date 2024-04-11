@@ -13,6 +13,8 @@ import DeletePetByIdUseCaseInput from './usecases/dtos/delete.pet.by.id.usecase.
 import DeletePetByIdUseCaseOutput from './usecases/dtos/delete.pet.by.id.usecase.output';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multerConfig from 'src/config/multer.config';
+import UpdatePetPhotoByIdUseCaseInput from './dtos/update.pet.photo.by.id.usecase.input';
+import UpdatePetPhotoByIdUseCaseOutput from './dtos/update.pet.photo.by.id.usecase.output';
 
 @Controller('pet')
 export class PetController {
@@ -28,6 +30,9 @@ export class PetController {
 
     @Inject(PetTokens.deletePetByIdUseCase)
     private readonly deletePetByIdUseCase: IuseCase<DeletePetByIdUseCaseInput, DeletePetByIdUseCaseOutput>
+
+    @Inject(PetTokens.updatePetPhotoByIdUseCase)
+    private readonly updatePetPhotoByIdUseCase : IuseCase<UpdatePetPhotoByIdUseCaseInput, UpdatePetPhotoByIdUseCaseOutput>
 
     @Post()
     async createPet(@Body() input: CreatePetControllerInput): Promise<CreatePetUseCaseOutput> {
@@ -71,11 +76,16 @@ export class PetController {
 
     @Patch(':id/photo')
     @UseInterceptors(FileInterceptor('photo', multerConfig))
-    updatePhoto(
+    async updatePhoto(
         @UploadedFile() photo: Express.Multer.File,
         @Param('id') id: string,
     ) {
-        console.log(photo, id)
+        const useCaseInput = new UpdatePetPhotoByIdUseCaseInput ({
+            id,
+            photoUrl: photo.path
+
+        })
+        return await this.updatePetPhotoByIdUseCase.run(useCaseInput)
     }
 
 }
