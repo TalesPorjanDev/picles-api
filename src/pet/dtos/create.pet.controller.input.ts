@@ -1,25 +1,24 @@
-import { IsEmail, IsString, IsNotEmpty, MaxLength } from "class-validator"
+import { IsString, IsNotEmpty, MaxLength } from "class-validator";
 
 export default class CreatePetControllerInput {
     @IsString()
     @IsNotEmpty()
-    name: string
-    
+    name: string;
+  
     @IsString()
     @IsNotEmpty()
-    type: string
-    
+    type: string;
+  
     @IsString()
     @IsNotEmpty()
-    size: string
-    
+    size: string;
+  
     @IsString()
     @IsNotEmpty()
-    gender: string
-
+    gender: string;
+  
     @IsString()
+    @IsNotEmpty()
     @MaxLength(1024)
-    bio: string
-
-    
+    bio: string;
 }

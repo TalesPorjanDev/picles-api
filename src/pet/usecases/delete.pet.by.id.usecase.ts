@@ -2,32 +2,27 @@ import { IuseCase } from "src/domain/iusecase.interface";
 import DeletePetByIdUseCaseInput from "./dtos/delete.pet.by.id.usecase.input";
 import DeletePetByIdUseCaseOutput from "./dtos/delete.pet.by.id.usecase.output";
 import { Inject, Injectable } from "@nestjs/common";
-import PetTokens from "../pet.tokens";
-import IPetRepository from "../interfaces/pet.repository,interface";
 import PetNotFoundError from "src/domain/errors/pet.not.found.error";
-import { Pet } from "../schema/schema";
+import IPetRepository from "../interfaces/pet.repository.interface";
+import PetTokens from "../pet.tokens";
+import { Pet } from "../schemas/pet.schema";
 
 @Injectable()
-export default class DeletePetByIdUseCase implements IuseCase<DeletePetByIdUseCaseInput,
-DeletePetByIdUseCaseOutput> {
-    constructor (
-        @Inject (PetTokens.petRepository)
+export default class DeletePetByIdUseCase implements IuseCase<DeletePetByIdUseCaseInput, DeletePetByIdUseCaseOutput> {
+    
+    constructor(
+        @Inject(PetTokens.petRepository)
         private readonly petRepository: IPetRepository
-    ) {}
+    ) { }
 
     async run(input: DeletePetByIdUseCaseInput): Promise<DeletePetByIdUseCaseOutput> {
-
-        let pet = await this.getPetById(input.id)
+        const pet = await this.getPetById(input.id)
 
         if(!pet) {
             throw new PetNotFoundError()
         }
-        await this.petRepository.updateById({
-            ...input,
-            _id: input.id
-        });
 
-        pet = await this.getPetById(input.id)
+        await this.petRepository.deleteById(input.id)
 
         return new DeletePetByIdUseCaseOutput()
     }
@@ -39,7 +34,5 @@ DeletePetByIdUseCaseOutput> {
             return null
         }
     }
-    
-}
 
-    
+}
