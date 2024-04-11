@@ -32,4 +32,8 @@ export default class PetRepository implements IPetRepository {
             }
         )
         }
+
+        async deleteById(id: string): Promise<void> {
+            await this.petModel.findByIdAndDelete(id)
+        }
     }

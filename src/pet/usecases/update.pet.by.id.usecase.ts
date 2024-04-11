@@ -4,7 +4,7 @@ import UpdatePetByIdUseCaseOutput from "./dtos/update.pet.by.id.usecase.output";
 import PetTokens from "../pet.tokens";
 import IPetRepository from "../interfaces/pet.repository,interface";
 import { Inject } from "@nestjs/common";
-import petRepository from "../pet.repository";
+
 import PetNotFoundError from "src/domain/errors/pet.not.found.error";
 import { Pet } from "../schema/schema";
 import CreatePetUseCaseOutput from "./dtos/create.pet.usecase.output";
