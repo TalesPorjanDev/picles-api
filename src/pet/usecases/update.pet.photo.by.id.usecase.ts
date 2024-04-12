@@ -1,12 +1,59 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import UpdatePetByIdUseCaseOutput from "./dtos/update.pet.by.id.usecase.output";
 import { IuseCase } from "src/domain/iusecase.interface";
+import PetTokens from "../pet.tokens";
+import IPetRepository from "../interfaces/pet.repository.interface";
+import { Pet } from "../schemas/pet.schema";
+import UpdatePetPhotoByIdUseCaseOutput from "../dtos/update.pet.photo.by.id.usecase.output";
+import PetNotFoundError from "src/domain/errors/pet.not.found.error";
+import UpdatePetPhotoByIdUseCaseInput from "../dtos/update.pet.photo.by.id.usecase.input";
+import AppTokens from "src/app.tokens";
+import IFileService from "src/interfaces/file.service.interface";
 
 @Injectable()
-export default class UpdatePetPhotoByIdUseCaseInput implements IuseCase<UpdatePetPhotoByIdUseCaseInput, UpdatePetByIdUseCaseOutput>
+export default class UpdatePetPhotoByIdUseCase implements IuseCase<UpdatePetPhotoByIdUseCaseInput, UpdatePetByIdUseCaseOutput>
 {
-    run(input: UpdatePetPhotoByIdUseCaseInput):
-    Promise<UpdatePetByIdUseCaseOutput> {
-        throw new Error("Method not implemented")
+    constructor(
+        @Inject(PetTokens.petRepository)
+        private readonly petRepository: IPetRepository,
+
+        @Inject(AppTokens.fileService)
+        private readonly fileService: IFileService
+    ) { }
+    
+    async run(input: UpdatePetPhotoByIdUseCaseInput):
+    Promise<UpdatePetPhotoByIdUseCaseOutput> {
+        const pet = await this.findPetById(input.id);
+
+        if(!pet) {
+            throw new PetNotFoundError();
+        }
+
+        await this.petRepository.updateById({
+            _id: input.id,
+            photo: input.photoUrl,
+        });
+
+        const photo = await this.fileService.readFile(input.photoUrl)
+
+        return new UpdatePetPhotoByIdUseCaseOutput({
+            id: pet._id,
+            name: pet.name,
+            type: pet.type,
+            size: pet.size,
+            gender: pet.gender,
+            bio: pet.bio,
+            photo: photo.toString('base64'),
+            createdAt: pet.createdAt,
+            updatedAt: pet.updatedAt,
+        });
     }
+
+    private async findPetById(id: string): Promise<Pet> {
+        try {
+          return await this.petRepository.getById(id);
+        } catch (error) {
+          return null;
+        }
+      }
 }
