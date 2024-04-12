@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import PetNotFoundError from "src/domain/errors/pet.not.found.error";
 import { IuseCase } from "src/domain/iusecase.interface";
-import IPetRepository from "src/pet/interfaces/pet.repository,interface";
+import IPetRepository from "src/pet/interfaces/pet.repository.interface";
 import PetTokens from "src/pet/pet.tokens";
 import { Pet } from "src/pet/schema/schema";
 import CreatePetUseCaseOutput from "src/pet/usecases/dtos/create.pet.usecase.output";

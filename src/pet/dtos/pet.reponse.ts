@@ -12,9 +12,16 @@ export default class PetResponse {
     updatedAt: Date;
 
     static fromPet(data: Pet): PetResponse {
-        return new PetResponse ({
-            ...data,
-            id: data._id,
+      return new PetResponse ({
+        id: data._id,
+        name: data.name,
+        type: data.type,
+        size: data.size,
+        gender: data.gender,
+        bio: data.bio,
+        photo: data.photo,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
         });
     }
 
