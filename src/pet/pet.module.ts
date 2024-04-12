@@ -10,6 +10,7 @@ import UpdatePetByIdUseCase from './usecases/update.pet.by.id.usecase';
 import DeletePetByIdUseCase from './usecases/delete.pet.by.id.usecase';
 import FileService from 'src/file.service';
 import AppTokens from 'src/app.tokens';
+import UpdatePetPhotoByIdUseCase from './usecases/update.pet.photo.by.id.usecase';
 
 @Module({
   controllers: [PetController],
@@ -17,32 +18,32 @@ import AppTokens from 'src/app.tokens';
   providers: [
     {
       provide: PetTokens.createPetUseCase,
-      useClass: CreatePetUseCase
+      useClass: CreatePetUseCase,
     },
     {
       provide: PetTokens.getPetByIdUseCase,
-      useClass: GetPetByIdUseCase
+      useClass: GetPetByIdUseCase,
     },
     {
       provide: PetTokens.updatePetByIdUseCase,
-      useClass: UpdatePetByIdUseCase
+      useClass: UpdatePetByIdUseCase,
     },
     {
       provide: PetTokens.deletePetByIdUseCase,
-      useClass: DeletePetByIdUseCase
+      useClass: DeletePetByIdUseCase,
     },
     {
       provide: PetTokens.petRepository,
-      useClass: PetRepository
+      useClass: PetRepository,
     },
     {
       provide: PetTokens.updatePetPhotoByIdUseCase,
-      useClass: UpdatePetByIdUseCase
+      useClass: UpdatePetPhotoByIdUseCase,
     },
     {
       provide: AppTokens.fileService,
-      useClass: FileService
-    }
-  ]
+      useClass: FileService,
+    },
+  ],
 })
 export class PetModule {}
